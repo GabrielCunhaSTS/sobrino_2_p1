@@ -4,204 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guia de Estudos CSS e Dados Estruturais</title>
-    <style>
-        /* CONFIGURAÇÕES GERAIS PARA MELHOR VISUALIZAÇÃO */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        h1, h2, h3 {
-            color: #0056b3;
-        }
-        code {
-            background-color: #eee;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: Consolas, monospace;
-        }
-
-        /* --- 1. SELETORES E COMBINADORES --- */
-
-        /* 1.1 Relações de Descendência */
-
-        /* EXERCÍCIO (Descendente):
-           Selecione QUALQUER link <a> que esteja DENTRO de um item de lista <li>,
-           não importa o quão profundo ele esteja. O espaço é o combinador de descendente.
-           Resultado esperado: Todos os links na primeira lista ficarão azuis. */
-        #container-descendencia li a {
-            color: rgb(224, 0, 0);
-        }
-
-        /* EXERCÍCIO (Filho Direto >):
-           Selecione APENAS o <li> que é FILHO DIRETO da <ul> com id="lista-pai".
-           O sinal '>' garante que apenas o nível imediatamente abaixo seja selecionado.
-           Resultado esperado: Apenas "Filho 1" e "Filho 2" terão um fundo amarelo. O "Neto" não será afetado. */
-        #lista-pai > li {
-            background-color: rgb(199, 199, 21);
-        }
-
-
-        /* 1.2 Seletor Universal (*) */
-
-        /* EXERCÍCIO (Reset Básico):
-           O seletor universal '*' seleciona TODOS os elementos.
-           É usado para resets. Aqui, garantimos que todos os elementos
-           tenham uma margem e preenchimento zerados por padrão.
-           (Está comentado para não afetar o resto da página)
-        */
-        /*
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        */
-
-        /* EXERCÍCIO (Universal com Escopo):
-           Selecione TODOS os filhos DIRETOS da tag <address> e aplique uma borda.
-           Resultado esperado: O <p> e o <a> dentro de <address> terão uma borda vermelha. */
-        #contato > * {
-            border: 1px solid red;
-            display: block; /* Apenas para visualização */
-            margin: 5px;
-        }
-
-        /* 1.3 Herança (inherit) */
-
-        /* Por padrão, elementos de formulário como <select> e <button> não herdam
-           a fonte do corpo (body) e usam uma fonte padrão do sistema. */
-
-        /* EXERCÍCIO:
-           Faça o elemento <select> HERDAR (inherit) a mesma família de fontes
-           definida para o elemento <body>.
-           Resultado esperado: A fonte do seletor de opções será a mesma do resto do texto. */
-        #seletor-heranca {
-            font-family: inherit;
-            font-size: inherit;
-        }
-
-
-        /* 1.4 Combinadores de Irmãos (~ e +) */
-
-        /* EXERCÍCIO (Irmão Adjacente +):
-           Selecione APENAS o primeiro parágrafo <p> que vem IMEDIATAMENTE APÓS o <h2>.
-           O '+' afeta apenas o vizinho mais próximo.
-           Resultado esperado: Apenas "Este é o irmão adjacente" ficará em itálico. */
-        #irmaos h2 + p {
-            font-style: italic;
-            color: green;
-        }
-
-        /* EXERCÍCIO (Irmão Geral ~):
-           Selecione TODOS os parágrafos <p> que são irmãos e vêm DEPOIS do <h2>.
-           O '~' afeta todos os irmãos que seguem, não apenas o primeiro.
-           Resultado esperado: Todos os parágrafos após o h2 terão um fundo cinza claro. */
-        #irmaos h2 ~ p {
-            background-color: #e0e0e0;
-        }
-
-
-        /* 1.5 Pseudo-classes (:) */
-
-        /* EXERCÍCIO (Estados de Interação):
-           Altere a cor dos links na navegação com base na interação do usuário.
-           :link    -> Link que ainda não foi visitado.
-           :visited -> Link que já foi visitado.
-           :hover   -> Quando o mouse está sobre o link.
-           :active  -> No momento exato em que o link é clicado.
-        */
-        .nav-link:link { color: #007bff; }
-        .nav-link:visited { color: #6f42c1; }
-        .nav-link:hover { text-decoration: underline; color: #0056b3; }
-        .nav-link:active { color: #ff4500; }
-
-        /* EXERCÍCIO (Pseudo-classes Estruturais):
-           Estilize a lista de forma alternada (listras de zebra).
-           :nth-child(even) -> Seleciona os filhos pares (2, 4, 6...).
-           :nth-child(odd)  -> Seleciona os filhos ímpares (1, 3, 5...).
-           Resultado esperado: Os itens pares da lista terão fundo cinza. */
-        #lista-estrutural li:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        /* Pinte o PRIMEIRO item de verde. */
-        #lista-estrutural li:first-child {
-            font-weight: bold;
-            color: green;
-        }
-        /* Pinte o ÚLTIMO item de vermelho. */
-        #lista-estrutural li:last-child {
-            font-weight: bold;
-            color: red;
-        }
-
-
-        /* 1.6 Pseudo-elementos (::) */
-
-        /* EXERCÍCIO:
-           Use pseudo-elementos para estilizar partes específicas do parágrafo.
-           ::first-letter -> Estiliza a primeira letra para que pareça um capitular.
-           ::first-line   -> Estiliza a primeira linha do texto.
-           Resultado esperado: A letra 'L' será grande e a primeira linha estará em negrito. */
-        #paragrafo-pseudo::first-letter {
-            font-size: 2.5em;
-            color: #0056b3;
-            float: left;
-            margin-right: 5px;
-            line-height: 1;
-        }
-        #paragrafo-pseudo::first-line {
-            font-weight: bold;
-        }
-
-        /* EXERCÍCIO:
-           Use ::before e ::after para adicionar conteúdo decorativo que não está no HTML.
-           A propriedade 'content' é obrigatória.
-           Resultado esperado: Um emoji de aspas aparecerá antes e depois da citação. */
-        #citacao::before {
-            content: "“ ";
-            font-size: 1.2em;
-        }
-        #citacao::after {
-            content: " ”";
-            font-size: 1.2em;
-        }
-
-
-        /* 1.7 Seletores de Atributo e Wildcards */
-
-        /* EXERCÍCIO:
-           Selecione os links <a> com base no valor de seu atributo 'href'.
-           [href^="..."] -> O valor COMEÇA COM.
-           [href$="..."] -> O valor TERMINA COM.
-           [href*="..."] -> O valor CONTÉM.
-           Resultado esperado: Cada link terá um ícone e cor diferente com base em seu destino. */
-
-        /* Começa com "tel:" (telefone) */
-        a[href^="tel"] { color: orange; }
-        a[href^="tel"]::before { content: "📞 "; }
-
-        /* Termina com ".pdf" */
-        a[href$=".pdf"] { color: #d93025; }
-        a[href$=".pdf"]::before { content: "📄 "; }
-
-        /* Contém "google" */
-        a[href*="google"] { color: #4285F4; }
-        a[href*="google"]::before { content: "🔍 "; }
-
-    </style>
 </head>
 <body>
-
     <h1>Guia de Estudos: Seletores CSS e Dados Estruturais</h1>
 
     <div class="container" id="container-descendencia">
@@ -287,18 +91,17 @@
         </article>
 
         <script type="application/ld+json">
-        {
-          "@context": "https://schema.org/",
-          "@type": "Recipe",
-          "name": "Bolo Simples",
-          "author": {
-            "@type": "Person",
-            "name": "Chef Gemini"
-          },
-          "description": "Uma receita fácil e rápida para um bolo delicioso."
-        }
+            {
+            "@context": "https://schema.org/",
+            "@type": "Recipe",
+            "name": "Bolo Simples",
+            "author": {
+                "@type": "Person",
+                "name": "Chef Gemini"
+            },
+            "description": "Uma receita fácil e rápida para um bolo delicioso."
+            }
         </script>
     </div>
-
 </body>
 </html>
